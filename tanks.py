@@ -7,20 +7,26 @@ def plot_solution(results):
 
     plt.plot(x, 'r', label='tank1')
     plt.plot(y, 'b', label='tank2')
-    plt.xlabel('minuten')
+    plt.xlabel('steps')
     plt.ylabel('zoutoplossing (kg)')
     plt.legend()
     plt.show()
 
 
-def f(yt1, yt2):
+def f(yt1: float, yt2: float) -> list:
+    """
+    :param yt1: current y value of tank 1
+    :param yt2: current y value of tank 2
+    :return: deriv tank 1 , deriv tank 2
+    """
+
     st1 = 1.2 + (1 / 100 * yt2) - (3 / 100 * yt1) - (4 / 100 * yt1)
     st2 = (3 / 100 * yt1) - (2 / 100 * yt2) - (1 / 100 * yt2)
 
     return st1, st2
 
 
-def solve_with_forward_euler(f, h, x_min, x_max):
+def solve_with_forward_euler(f, h: float, x_min: float, x_max: float) -> list:
     """
     solves a set of two ODEs using forward euler
 
@@ -47,7 +53,7 @@ def solve_with_forward_euler(f, h, x_min, x_max):
     return t1, t2
 
 
-def solve_with_heun(f, h, x_min, x_max):
+def solve_with_heun(f, h: float, x_min: float, x_max: float) -> list:
     """
 
     solves a set of two ODEs using heun's method
@@ -77,8 +83,9 @@ def solve_with_heun(f, h, x_min, x_max):
         sr = h * f(t1[i] + sl, t2[i])[1]
         t2[i + 1] = t2[i] + (sl + sr) / 2
 
+
     return t1, t2
 
 
-plot_solution(solve_with_forward_euler(f, 0.01, 0, 200))
-plot_solution(solve_with_heun(f, 0.01, 0, 200))
+plot_solution(solve_with_forward_euler(f, 1, 0, 200))
+plot_solution(solve_with_heun(f, 1, 0, 200))
